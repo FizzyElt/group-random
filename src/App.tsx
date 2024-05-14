@@ -9,6 +9,8 @@ import {
   Text,
   Card,
 } from "@radix-ui/themes";
+import { map, join } from "effect/Array";
+import { pipe } from "effect";
 
 import MembersSection from "./components/MemberSection";
 import GroupsSection from "./components/GroupsSection";
@@ -29,6 +31,23 @@ function App() {
 
   const handleClear = () => {
     setGroupList([]);
+  };
+
+  const handleCopy = () => {
+    const copyString = pipe(
+      groupList,
+      map(
+        ({ name, members }) =>
+          `${name}:\n${pipe(
+            members,
+            map((member) => `  - ${member}`),
+            join("\n"),
+          )}`,
+      ),
+      join("\n"),
+    );
+
+    navigator.clipboard.writeText(copyString);
   };
 
   return (
@@ -52,13 +71,16 @@ function App() {
 
       {groupList.length > 0 && (
         <Card>
+          <Flex justify="end" mb="3">
+            <Button onClick={handleCopy}>Copy</Button>
+          </Flex>
           <Grid gap="3" columns={{ initial: "1", md: "3" }} width="auto">
-            {groupList.map(({ name, members }) => (
+            {map(groupList, ({ name, members }) => (
               <Card key={name}>
                 <Flex gap="3" direction="column">
                   <Heading size="7">{name}</Heading>
                   <Flex gap="2" direction="column">
-                    {members.map((member) => (
+                    {map(members, (member) => (
                       <Text size="5" key={member}>
                         {member}
                       </Text>
