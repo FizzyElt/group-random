@@ -3,8 +3,9 @@ import { useState } from "react";
 
 import { pipe } from "effect";
 
-import { union, map, filter } from "effect/Array";
+import { appendAll, map, dedupe, dropWhile } from "effect/Array";
 import { split, trim } from "effect/String";
+import { equals } from "effect/Equal";
 
 import {
   Flex,
@@ -29,18 +30,13 @@ const MembersSection = (props: MembersSectionProps) => {
 
   const handleUpdateMembers = () => {
     onChangeMembers((prev) =>
-      pipe(value, split(/;|,/), map(trim), union(prev)),
+      pipe(value, split(/,|;/), map(trim), appendAll(prev), dedupe),
     );
     setValue("");
   };
 
   const handleDeleteMember = (name: string) => {
-    onChangeMembers((prev) =>
-      pipe(
-        prev,
-        filter((n) => n !== name),
-      ),
-    );
+    onChangeMembers((prev) => pipe(prev, dropWhile(equals(name))));
   };
 
   return (
