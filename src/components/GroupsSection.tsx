@@ -3,10 +3,8 @@ import { useState } from "react";
 
 import { pipe } from "effect";
 
-import { union, map, dropWhile } from "effect/Array";
+import { union, map, filter } from "effect/Array";
 import { split, trim } from "effect/String";
-import { equals } from "effect/Equal";
-import {} from "effect";
 
 import {
   Flex,
@@ -35,7 +33,12 @@ const GroupsSection = (props: GroupsSectionProps) => {
   };
 
   const handleDeleteGroup = (name: string) => {
-    onChangeGroups((prev) => pipe(prev, dropWhile(equals(name))));
+    onChangeGroups((prev) =>
+      pipe(
+        prev,
+        filter((n) => n !== name),
+      ),
+    );
   };
 
   return (
