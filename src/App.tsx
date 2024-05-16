@@ -50,6 +50,18 @@ function App() {
     navigator.clipboard.writeText(copyString);
   };
 
+  const handleJson = () => {
+    const content = JSON.stringify(groupList, null, 2);
+    const blob = new Blob([content], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const node = document.createElement("a");
+    node.href = url;
+    document.body.appendChild(node);
+
+    node.click();
+    document.removeChild(node);
+  };
+
   return (
     <Container>
       <Flex align="stretch" gap="4">
@@ -73,6 +85,7 @@ function App() {
         <Card>
           <Flex justify="end" mb="3">
             <Button onClick={handleCopy}>Copy</Button>
+            <Button onClick={handleJson}>Json</Button>
           </Flex>
           <Grid gap="3" columns={{ initial: "1", md: "3" }} width="auto">
             {map(groupList, ({ name, members }) => (
