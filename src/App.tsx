@@ -54,12 +54,7 @@ function App() {
     const content = JSON.stringify(groupList, null, 2);
     const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const node = document.createElement("a");
-    node.href = url;
-    document.body.appendChild(node);
-
-    node.click();
-    document.removeChild(node);
+    window.open(url);
   };
 
   return (
@@ -83,7 +78,7 @@ function App() {
 
       {groupList.length > 0 && (
         <Card>
-          <Flex justify="end" mb="3">
+          <Flex justify="end" mb="3" gap="1">
             <Button onClick={handleCopy}>Copy</Button>
             <Button onClick={handleJson}>Json</Button>
           </Flex>
