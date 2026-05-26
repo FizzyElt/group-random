@@ -41,11 +41,12 @@ const MembersSection = (props: MembersSectionProps) => {
                             Add
                         </Button>
                     </Flex>
-                    {members.map((member) => (
+                    {members.map((member, idx) => (
                         <Flex key={member}>
-                            <Box flexGrow="1">
+                            <Flex flexGrow="1" gap="8px">
+                                <Text size="5">{idx + 1}.</Text>
                                 <Text size="5">{member}</Text>
-                            </Box>
+                            </Flex>
                             <Button size="3" color="red" onClick={() => handleDeleteMember(member)}>
                                 Delete
                             </Button>

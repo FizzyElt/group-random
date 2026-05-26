@@ -46,7 +46,7 @@ function App() {
     };
 
     return (
-        <Container>
+        <Container pb="4">
             <Flex align="stretch" gap="4">
                 <Box flexGrow="1">
                     <MembersSection members={members} onChangeMembers={setMembers} />
